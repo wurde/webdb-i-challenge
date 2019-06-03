@@ -54,7 +54,17 @@ router.route('/')
 // GET,PUT,DELETE /accounts/:id
 router.route('/:id')
   .get(async (req, res) => {
-    res.sendStatus(200)
+    try {
+      let account = await Account.find(req.params.id)
+
+      if (account) {
+        res.status(200).json(account)
+      } else {
+        res.status(404).json({ error: { message: `Account not found for ID '${req.params.id}'.` }})
+      }
+    } catch (err) {
+      res.status(500).json({ error: { message: 'Server error during account fetch.' }})
+    }
   })
   .put(async (req, res) => {
     res.sendStatus(200)
