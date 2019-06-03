@@ -27,7 +27,7 @@ class Account {
     return await db('accounts').where({ id }).first()
   }
 
-  static async add(account) {
+  static async insert(account) {
     const [id] = await db('accounts').insert(account)
 
     let new_account = await db('accounts').where({ id }).first()

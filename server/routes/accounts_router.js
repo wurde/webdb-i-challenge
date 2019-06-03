@@ -29,7 +29,26 @@ router.route('/')
     }
   })
   .post(async (req, res) => {
-    res.sendStatus(200)
+    if (!req.body) {
+      res.status(400).json({ error: { message: 'Missing form data.' }})
+    }
+    if (!req.body.name) {
+      res.status(400).json({ error: { message: 'Missing name value.' }})
+    }
+    if (!req.body.budget) {
+      res.status(400).json({ error: { message: 'Missing budget value.' }})
+    }
+
+    try {
+      let account = await Account.insert({
+        name: req.body.name,
+        budget: req.body.budget
+      })
+      res.status(201).json(account)
+    } catch (err) {
+      console.error(err)
+      res.status(500).json({ error: { message: 'Server error during account creation.' }})
+    }
   })
 
 // GET,PUT,DELETE /accounts/:id
