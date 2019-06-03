@@ -67,7 +67,21 @@ router.route('/:id')
     }
   })
   .put(async (req, res) => {
-    res.sendStatus(200)
+    try {
+      let account = await Account.find(req.params.id)
+
+      if (account) {
+        await Account.update(req.params.id, {
+          name: (req.body.name || account.name),
+          budget: (req.body.budget || account.budget)
+        })
+        res.sendStatus(200)
+      } else {
+        res.status(404).json({ error: { message: `Account not found for ID '${req.params.id}'.` }})
+      }
+    } catch (err) {
+      res.status(500).json({ error: { message: 'Server error during account update.' }})
+    }
   })
   .delete(async (req, res) => {
     res.sendStatus(200)
