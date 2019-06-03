@@ -35,12 +35,12 @@ class Account {
     return new_account
   }
 
-  static async remove(id) {
-    return await db('accounts').where({ id }).del()
-  }
-
   static async update(id, changes) {
     return await db('accounts').where({ id }).update(changes, '*')
+  }
+
+  static async remove(id) {
+    return await db('accounts').where({ id }).del()
   }
 }
 
