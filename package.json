@@ -1,10 +1,10 @@
 {
   "name": "webdb-i-challenge",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server/app.js",
   "scripts": {
-    "start": "node index.js",
-    "start:dev": "nodemon index.js"
+    "start": "node server/app.js",
+    "start:dev": "nodemon server/app.js"
   },
   "repository": "https://github.com/LambdaSchool/webdb-i-challenge",
   "dependencies": {
