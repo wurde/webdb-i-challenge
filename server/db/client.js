@@ -14,7 +14,7 @@ const config = {
   development: {
     client: 'sqlite3',
     connection: {
-      filename: './budget.sqlite',
+      filename: './server/db/budget.sqlite',
     },
     useNullAsDefault: true,
   }

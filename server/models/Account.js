@@ -11,7 +11,7 @@ const db = require('../db/client')
  */
 
 class Account {
-  static async find(query={}) {
+  static async all(query={}) {
     let { page = 1, limit = 5, sortby = 'id', sortdir = 'asc' } = query
     const offset = limit * (page - 1)
 
@@ -23,28 +23,24 @@ class Account {
     return rows
   }
 
-  static async findById(id) {
-    return await db('accounts')
-      .where({ id })
-      .first()
+  static async find(id) {
+    return await db('accounts').where({ id }).first()
   }
 
   static async add(account) {
     const [id] = await db('accounts').insert(account)
 
-    return findById(id)
+    let new_account = await db('accounts').where({ id }).first()
+
+    return new_account
   }
 
   static async remove(id) {
-    return await db('accounts')
-      .where({ id })
-      .del()
+    return await db('accounts').where({ id }).del()
   }
 
   static async update(id, changes) {
-    return await db('accounts')
-      .where({ id })
-      .update(changes, '*')
+    return await db('accounts').where({ id }).update(changes, '*')
   }
 }
 

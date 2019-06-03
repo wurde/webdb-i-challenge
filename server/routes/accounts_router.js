@@ -19,22 +19,28 @@ const router = express.Router()
 
 // GET,POST /accounts
 router.route('/')
-  .get((req, res) => {
-    res.sendStatus(200)
+  .get(async (req, res) => {
+    try {
+      let accounts = await Account.all()
+      res.status(200).json(accounts)
+    } catch (err) {
+      console.error(err)
+      res.status(500).json({ error: { message: 'Server error during accounts fetch.' }})
+    }
   })
-  .post((req, res) => {
+  .post(async (req, res) => {
     res.sendStatus(200)
   })
 
 // GET,PUT,DELETE /accounts/:id
-router.route('/')
-  .get((req, res) => {
+router.route('/:id')
+  .get(async (req, res) => {
     res.sendStatus(200)
   })
-  .put((req, res) => {
+  .put(async (req, res) => {
     res.sendStatus(200)
   })
-  .delete((req, res) => {
+  .delete(async (req, res) => {
     res.sendStatus(200)
   })
 
