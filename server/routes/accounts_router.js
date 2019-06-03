@@ -6,6 +6,7 @@
 
 const express = require('express')
 const Account = require('../models/Account')
+const check_account_exists = require('../middleware/check_account_exists')
 
 /**
  * Define router
@@ -15,9 +16,9 @@ const router = express.Router()
 
 /**
  * Routes
+ *   GET,POST /accounts
  */
 
-// GET,POST /accounts
 router.route('/')
   .get(async (req, res) => {
     try {
@@ -51,17 +52,23 @@ router.route('/')
     }
   })
 
-// GET,PUT,DELETE /accounts/:id
+/**
+ * Middleware
+ *   check_account_exists
+ */
+
+router.use('/:id', check_account_exists)
+
+/**
+ * Routes
+ *   GET,PUT,DELETE /accounts/:id
+ */
+
 router.route('/:id')
   .get(async (req, res) => {
     try {
       let account = await Account.find(req.params.id)
-
-      if (account) {
-        res.status(200).json(account)
-      } else {
-        res.status(404).json({ error: { message: `Account not found for ID '${req.params.id}'.` }})
-      }
+      res.status(200).json(account)
     } catch (err) {
       res.status(500).json({ error: { message: 'Server error during account fetch.' }})
     }
@@ -70,15 +77,12 @@ router.route('/:id')
     try {
       let account = await Account.find(req.params.id)
 
-      if (account) {
-        await Account.update(req.params.id, {
-          name: (req.body.name || account.name),
-          budget: (req.body.budget || account.budget)
-        })
-        res.sendStatus(200)
-      } else {
-        res.status(404).json({ error: { message: `Account not found for ID '${req.params.id}'.` }})
-      }
+      await Account.update(req.params.id, {
+        name: (req.body.name || account.name),
+        budget: (req.body.budget || account.budget)
+      })
+
+      res.sendStatus(200)
     } catch (err) {
       res.status(500).json({ error: { message: 'Server error during account update.' }})
     }

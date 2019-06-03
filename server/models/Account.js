@@ -36,7 +36,7 @@ class Account {
   }
 
   static async update(id, changes) {
-    return await db('accounts').where({ id }).update(changes, '*')
+    return await db('accounts').where({ id }).update(changes)
   }
 
   static async remove(id) {

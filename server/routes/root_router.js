@@ -14,9 +14,9 @@ const router = express.Router()
 
 /**
  * Routes
+ *   GET /
  */
 
-// GET /
 router.route('/')
   .get((req, res) => {
     res.redirect('/accounts')
