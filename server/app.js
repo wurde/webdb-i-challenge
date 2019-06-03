@@ -5,6 +5,7 @@
  */
 
 const express = require('express')
+const cors = require('cors')
 
 /**
  * Constants
@@ -19,12 +20,18 @@ const port = process.env.PORT || 8080
 const app = express()
 
 /**
+ * Middleware
+ */
+
+app.use(cors())
+app.use(express.json())
+
+/**
  * Routes
  */
 
-app.get('/', (req, res) => {
-  res.sendStatus(200)
-})
+app.use('/', require('./routes/root_router'))
+app.use('/accounts', require('./routes/accounts_router'))
 
 /**
  * Start server

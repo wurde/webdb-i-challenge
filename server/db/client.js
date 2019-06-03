@@ -14,7 +14,7 @@ const config = {
   development: {
     client: 'sqlite3',
     connection: {
-      filename: './db/budget.sqlite',
+      filename: './budget.sqlite',
     },
     useNullAsDefault: true,
   }
@@ -24,7 +24,7 @@ const config = {
  * Define db client
  */
 
-const client = knex(config)
+const client = knex(config.development)
 
 /**
  * Export db client
